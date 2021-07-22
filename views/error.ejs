@@ -1,0 +1,11 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="alert alert-danger" role="alert">
+        <h4>
+            <%= err.message %>
+        </h4>
+        <p>
+            <%= err.stack %>
+        </p>
+    </div>
+    <button onclick="window.history.back()" class="btn btn-primary">Go Back</button>
