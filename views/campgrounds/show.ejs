@@ -1,8 +1,27 @@
 <% layout('layouts/boilerplate') %>
     <div class="row">
         <div class="col-6 ">
+
+            <div id="campCarousel" class="carousel slide" data-bsride="carousel">
+                <div class="carousel-inner">
+                    <% camp.images.forEach((img, i)=> { %>
+
+                        <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
+                            <img class="d-block w-100" src="<%= img.url %>" alt="">
+                        </div>
+
+                        <% }) %>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#campCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#campCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+            </div>
+
             <div class="card mb-5">
-                <img src="<%= camp.image %>" class="card-img-top" alt="camp image">
                 <div class="card-body">
                     <h5 class="card-title">
                         <%= camp.title %>

@@ -1,4 +1,7 @@
-// YELPCAMP HOME PAGE
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config()
+}
+
 const express = require('express')
 const app = express()
 const path = require('path')
@@ -19,6 +22,7 @@ const userRoutes = require('./routes/users')
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 app.engine('ejs', ejsMate)
+
 
 
 
