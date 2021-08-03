@@ -16,15 +16,17 @@ const LocalStrategy = require('passport-local')
 const User = require('./models/user')
 const mongoSanitize = require('express-mongo-sanitize')
 const helmet = require('helmet')
+const MongoDBStore = require('connect-mongo')
+const secret = process.env.SECRET
 
 const campgroundRoutes = require('./routes/campgrounds')
 const reviewRoutes = require('./routes/reviews')
 const userRoutes = require('./routes/users')
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp'
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 app.engine('ejs', ejsMate)
-
 
 
 
@@ -33,7 +35,7 @@ app.engine('ejs', ejsMate)
 //////////////
 
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
+mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -101,10 +103,20 @@ app.use(
         },
     })
 )
+const store = MongoDBStore.create({
+    mongoUrl: dbUrl,
+    secret,
+    touchAfter: 24 * 60 * 60
+})
+
+store.on('error', function(e){
+    console.log('SESSION ERROR', e)
+})
 
 const sessionConfig = {
+    store,
     name: 'session',
-    secret: 'thiscouldbeabettersecret',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -114,8 +126,8 @@ const sessionConfig = {
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
 }
-app.use(session(sessionConfig))
 
+app.use(session(sessionConfig))
 app.use(passport.initialize())
 app.use(passport.session())
 passport.use(new LocalStrategy(User.authenticate()))
