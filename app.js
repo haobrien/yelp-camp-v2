@@ -51,6 +51,13 @@ db.once('open', () => {
 /////////////////
 //  MIDDLEWARE //
 /////////////////
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
@@ -59,15 +66,11 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(mongoSanitize())
 app.use(helmet())
 
-app.use((req, res, next) => {
-    res.locals.currentUser = req.user
     // if (!['/login', '/'].includes(req.originalUrl)) {
     //     req.session.returnTo = req.originalUrl
     // }
-    res.locals.success = req.flash('success')
-    res.locals.error = req.flash('error')
-    next()
-})
+
+
 
 
 
