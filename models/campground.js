@@ -12,6 +12,8 @@ ImageSchema.virtual('thumbnail').get(function () {
     return this.url.replace('/upload', '/upload/w_200')
 })
 
+const opts = { toJSON: {virtuals: true } }
+
 const CampgroundSchema = new Schema({
     title: String,
     images: [ImageSchema],
@@ -39,6 +41,10 @@ const CampgroundSchema = new Schema({
             ref: 'Review'
         }
     ]
+}, opts)
+
+CampgroundSchema.virtual('properties.popupText').get(function () {
+    return `<div class="text-center"><p><a class="fw-bold" href='/campgrounds/${this.id}'>${this.title}</a><br/><span class="text-muted">${this.location}</span></p></div>`
 })
 
 // deletes any post related to deleted camp
