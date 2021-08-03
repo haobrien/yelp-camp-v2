@@ -5,7 +5,9 @@
             <%= err.message %>
         </h4>
         <p>
-            <%= err.stack %>
+            <% if (process.env.NODE_ENV !== "production") { %> 
+                <%= err.stack %>
+            <% } %>
         </p>
     </div>
     <button onclick="window.history.back()" class="btn btn-primary">Go Back</button>

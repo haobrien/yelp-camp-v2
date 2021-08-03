@@ -4,13 +4,16 @@
   "description": "Final project in Cole Steele's web development bootcamp.",
   "main": "app.js",
   "dependencies": {
+    "@mapbox/mapbox-sdk": "^0.13.0",
     "cloudinary": "^1.26.3",
     "connect-flash": "^0.1.1",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "ejs-mate": "^3.0.0",
     "express": "^4.17.1",
+    "express-mongo-sanitize": "^2.1.0",
     "express-session": "^1.17.2",
+    "helmet": "^4.6.0",
     "joi": "^17.4.1",
     "method-override": "^3.0.0",
     "mongoose": "^5.13.3",
@@ -19,7 +22,8 @@
     "multer-storage-cloudinary": "^4.0.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^6.1.0"
+    "passport-local-mongoose": "^6.1.0",
+    "sanitize-html": "^2.4.0"
   },
   "devDependencies": {},
   "scripts": {
@@ -29,11 +33,7 @@
     "type": "git",
     "url": "git+https://github.com/haobrien/yelp-camp-v2.git"
   },
-  "author": {
-    "name": "Heather OBrien",
-    "email": "haobrientx@gmail.com",
-    "url": "http://haobrien.com"
-  },
+  "author": "Heather OBrien <haobrientx@gmail.com> (http://haobrien.com)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/haobrien/yelp-camp-v2/issues"
