@@ -22,18 +22,22 @@ const pickItem = array => {
 
 const seedDB = async () => {
     await Campground.deleteMany({})
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 20; i++) {
         const rand1k = Math.floor(Math.random() * 1000)
         const price = Math.ceil(Math.random() * 20) + 10
         const camp = new Campground({
             author: '61080a51d734bd15e0f49204',
             title: `${pickItem(descriptors)} ${pickItem(places)}`,
             location: `${cities[rand1k].city}, ${cities[rand1k].state}`,
+            geometry: {
+                type: "Point", 
+                coordinates: [-104.9653, 39.7348]
+            },
             images: [
-                {
-                    url: "https://res.cloudinary.com/dyhg63zvk/image/upload/v1627929427/YelpCamp/i7tmcr4wewoh3kiwfp8c.jpg",
-                    filename: "YelpCamp/i7tmcr4wewoh3kiwfp8c"
-                },
+                // {
+                //     url: "https://res.cloudinary.com/dyhg63zvk/image/upload/v1627929427/YelpCamp/i7tmcr4wewoh3kiwfp8c.jpg",
+                //     filename: "YelpCamp/i7tmcr4wewoh3kiwfp8c"
+                // },
                 {
                     url: "https://res.cloudinary.com/dyhg63zvk/image/upload/v1627929429/YelpCamp/b6vgtukd1y784xm1s07d.jpg",
                     filename: "YelpCamp/b6vgtukd1y784xm1s07d"
