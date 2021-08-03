@@ -59,6 +59,18 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(mongoSanitize())
 app.use(helmet())
 
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user
+    if (!['/login', '/'].includes(req.originalUrl)) {
+        req.session.returnTo = req.originalUrl
+    }
+    res.locals.success = req.flash('success')
+    res.locals.error = req.flash('error')
+    next()
+})
+
+
+
 const scriptSrcUrls = [
     "https://stackpath.bootstrapcdn.com/",
     "https://api.tiles.mapbox.com/",
@@ -137,16 +149,6 @@ passport.deserializeUser(User.deserializeUser())
 
 // FLASH
 app.use(flash())
-app.use((req, res, next) => {
-    if (!['/login', '/'].includes(req.originalUrl)) {
-        req.session.returnTo = req.originalUrl
-    }
-    // console.log(req.session)
-    res.locals.success = req.flash('success')
-    res.locals.error = req.flash('error')
-    res.locals.currentUser = req.user
-    next()
-})
 
 
 ////////////
