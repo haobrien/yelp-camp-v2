@@ -1,20 +1,26 @@
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
 // SEED DATABASE
 const mongoose = require('mongoose')
 const Campground = require('../models/campground')
 const cities = require('./cities')
 const { descriptors, places } = require('./seedNamer')
+const dbUrl = process.env.DB_URL;
 
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
+mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true
-})
+    useUnifiedTopology: true,
+    useFindAndModify: false
+});
 
-const db = mongoose.connection
-db.on('error', console.error.bind(console, 'connection error:'))
-db.once('open', () => {
-    console.log('Database connected')
-})
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", () => {
+    console.log("Database connected");
+});
 
 const pickItem = array => {
     return array[Math.floor(Math.random() * array.length)]
@@ -22,11 +28,11 @@ const pickItem = array => {
 
 const seedDB = async () => {
     await Campground.deleteMany({})
-    for (let i = 0; i < 300; i++) {
+    for (let i = 0; i < 200; i++) {
         const rand1k = Math.floor(Math.random() * 1000)
         const price = Math.ceil(Math.random() * 20) + 10
         const camp = new Campground({
-            author: '61080a51d734bd15e0f49204',
+            author: '6109c52c99139c20b87f0d18',
             title: `${pickItem(descriptors)} ${pickItem(places)}`,
             location: `${cities[rand1k].city}, ${cities[rand1k].state}`,
             geometry: {
@@ -58,7 +64,7 @@ const seedDB = async () => {
 
 seedDB().then(() => {
     mongoose.connection.close()
-    console.log('Database seed successful. Connection closed.')
+    console.log('Database seed successful. Connection closed.', dbUrl)
 }).catch(e => {
     console.log('Seed failed')
 })
